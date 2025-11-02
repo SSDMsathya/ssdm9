@@ -1,0 +1,13 @@
+                    List of relations
+ Schema |             Name             | Type  |  Owner   
+--------+------------------------------+-------+----------
+ ssdm9  | ssdm9_customers              | table | postgres
+ ssdm9  | ssdm9_service_delivery_log   | table | postgres
+ ssdm9  | ssdm9_service_enums          | table | postgres
+ ssdm9  | ssdm9_service_master         | table | postgres
+ ssdm9  | ssdm9_subscription_customers | table | postgres
+ ssdm9  | ssdm9_subscription_master    | table | postgres
+ ssdm9  | ssdm9_subscription_services  | table | postgres
+ ssdm9  | ssdm9_units_master           | table | postgres
+(8 rows)
+

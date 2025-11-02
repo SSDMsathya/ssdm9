@@ -1,0 +1,446 @@
+          Index "ssdm9.idx_subscription_customers_customer"
+   Column    |  Type   | Key? | Definition  | Storage | Stats target 
+-------------+---------+------+-------------+---------+--------------
+ customer_id | integer | yes  | customer_id | plain   | 
+btree, for table "ssdm9.ssdm9_subscription_customers"
+
+           Index "ssdm9.idx_subscription_customers_subscription"
+     Column      | Type | Key? |   Definition    | Storage  | Stats target 
+-----------------+------+------+-----------------+----------+--------------
+ subscription_id | text | yes  | subscription_id | extended | 
+btree, for table "ssdm9.ssdm9_subscription_customers"
+
+          Index "ssdm9.idx_subscription_master_unit"
+ Column  | Type | Key? | Definition | Storage  | Stats target 
+---------+------+------+------------+----------+--------------
+ unit_id | text | yes  | unit_id    | extended | 
+btree, for table "ssdm9.ssdm9_subscription_master"
+
+          Index "ssdm9.idx_subscription_services_customer"
+   Column    |  Type   | Key? | Definition  | Storage | Stats target 
+-------------+---------+------+-------------+---------+--------------
+ customer_id | integer | yes  | customer_id | plain   | 
+btree, for table "ssdm9.ssdm9_subscription_services"
+
+           Index "ssdm9.idx_subscription_services_subscription"
+     Column      | Type | Key? |   Definition    | Storage  | Stats target 
+-----------------+------+------+-----------------+----------+--------------
+ subscription_id | text | yes  | subscription_id | extended | 
+btree, for table "ssdm9.ssdm9_subscription_services"
+
+                  Index "ssdm9.pk_ssdm9_customers"
+   Column    |  Type   | Key? | Definition  | Storage | Stats target 
+-------------+---------+------+-------------+---------+--------------
+ customer_id | integer | yes  | customer_id | plain   | 
+primary key, btree, for table "ssdm9.ssdm9_customers"
+
+              Index "ssdm9.pk_ssdm9_service_master"
+   Column   | Type | Key? | Definition | Storage  | Stats target 
+------------+------+------+------------+----------+--------------
+ service_id | text | yes  | service_id | extended | 
+primary key, btree, for table "ssdm9.ssdm9_service_master"
+
+            Index "ssdm9.pk_ssdm9_subscription_customers"
+   Column    |  Type   | Key? | Definition  | Storage | Stats target 
+-------------+---------+------+-------------+---------+--------------
+ sub_cust_id | integer | yes  | sub_cust_id | plain   | 
+primary key, btree, for table "ssdm9.ssdm9_subscription_customers"
+
+                Index "ssdm9.pk_ssdm9_subscription_master"
+     Column      | Type | Key? |   Definition    | Storage  | Stats target 
+-----------------+------+------+-----------------+----------+--------------
+ subscription_id | text | yes  | subscription_id | extended | 
+primary key, btree, for table "ssdm9.ssdm9_subscription_master"
+
+               Index "ssdm9.pk_ssdm9_subscription_services"
+     Column     |  Type   | Key? |   Definition   | Storage | Stats target 
+----------------+---------+------+----------------+---------+--------------
+ sub_service_id | integer | yes  | sub_service_id | plain   | 
+primary key, btree, for table "ssdm9.ssdm9_subscription_services"
+
+             Index "ssdm9.pk_ssdm9_units_master"
+ Column  | Type | Key? | Definition | Storage  | Stats target 
+---------+------+------+------------+----------+--------------
+ unit_id | text | yes  | unit_id    | extended | 
+primary key, btree, for table "ssdm9.ssdm9_units_master"
+
+                                                      Table "ssdm9.ssdm9_custome
+rs"
+       Column       |            Type             | Collation | Nullable | Defau
+lt | Storage  | Compression | Stats target | Description 
+--------------------+-----------------------------+-----------+----------+------
+---+----------+-------------+--------------+-------------
+ customer_id        | integer                     |           | not null |      
+   | plain    |             |              | 
+ full_name          | text                        |           |          |      
+   | extended |             |              | 
+ contact_no         | text                        |           |          |      
+   | extended |             |              | 
+ email_id           | text                        |           |          |      
+   | extended |             |              | 
+ whatsapp_available | boolean                     |           |          |      
+   | plain    |             |              | 
+ gender             | text                        |           |          |      
+   | extended |             |              | 
+ dob                | date                        |           |          |      
+   | plain    |             |              | 
+ age                | integer                     |           |          |      
+   | plain    |             |              | 
+ blood_group        | text                        |           |          |      
+[7m--More--[27m   | extended |             |              | 
+ allergies          | text                        |           |          |      
+   | extended |             |              | 
+ relation_to_unit   | text                        |           |          |      
+   | extended |             |              | 
+ special_status     | text                        |           |          |      
+   | extended |             |              | 
+ resident_since     | date                        |           |          |      
+   | plain    |             |              | 
+ unit_id            | text                        |           |          |      
+   | extended |             |              | 
+[7m--More--[27m default_payer_id   | integer                     |           |          |      
+   | plain    |             |              | 
+ active_status      | boolean                     |           |          |      
+   | plain    |             |              | 
+ created_at         | timestamp without time zone |           |          |      
+   | plain    |             |              | 
+ updated_at         | timestamp without time zone |           |          |      
+   | plain    |             |              | 
+Indexes:
+    "pk_ssdm9_customers" PRIMARY KEY, btree (customer_id)
+Referenced by:
+    TABLE "ssdm9.ssdm9_subscription_customers" CONSTRAINT "fk_subscription_custo
+mers_customer" FOREIGN KEY (customer_id) REFERENCES ssdm9.ssdm9_customers(custom
+er_id) ON UPDATE CASCADE ON DELETE CASCADE
+    TABLE "ssdm9.ssdm9_subscription_master" CONSTRAINT "fk_subscription_master_a
+ccepted_by" FOREIGN KEY (accepted_by_customer_id) REFERENCES ssdm9.ssdm9_custome
+rs(customer_id) ON UPDATE CASCADE ON DELETE SET NULL
+    TABLE "ssdm9.ssdm9_subscription_master" CONSTRAINT "fk_subscription_master_c
+reated_by" FOREIGN KEY (created_by_customer_id) REFERENCES ssdm9.ssdm9_customers
+(customer_id) ON UPDATE CASCADE ON DELETE SET NULL
+    TABLE "ssdm9.ssdm9_subscription_services" CONSTRAINT "fk_subscription_servic
+es_customer" FOREIGN KEY (customer_id) REFERENCES ssdm9.ssdm9_customers(customer
+_id) ON UPDATE CASCADE ON DELETE CASCADE
+[7m--More--[27m    TABLE "ssdm9.ssdm9_service_delivery_log" CONSTRAINT "ssdm9_service_delivery_
+log_customer_id_fkey" FOREIGN KEY (customer_id) REFERENCES ssdm9.ssdm9_customers
+(customer_id)
+Access method: heap
+
+                                                                               T
+able "ssdm9.ssdm9_service_delivery_log"
+      Column       |            Type             | Collation | Nullable |       
+                         Default                                | Storage  | Com
+pression | Stats target | Description 
+-------------------+-----------------------------+-----------+----------+-------
+----------------------------------------------------------------+----------+----
+---------+--------------+-------------
+ delivery_id       | integer                     |           | not null | nextva
+l('ssdm9.ssdm9_service_delivery_log_delivery_id_seq'::regclass) | plain    |    
+         |              | 
+ subscription_id   | text                        |           |          |       
+                                                                | extended |    
+         |              | 
+ sub_service_id    | integer                     |           |          |       
+                                                                | plain    |    
+         |              | 
+ service_id        | text                        |           |          |       
+                                                                | extended |    
+         |              | 
+ customer_id       | integer                     |           |          |       
+                                                                | plain    |    
+         |              | 
+[7m--More--[27m unit_id           | character varying(20)       |           |          |       
+                                                                | extended |    
+         |              | 
+ delivery_date     | date                        |           | not null |       
+                                                                | plain    |    
+         |              | 
+ delivery_status   | character varying(50)       |           |          | 'Pendi
+ng'::character varying                                          | extended |    
+         |              | 
+ proof_of_delivery | boolean                     |           |          | false 
+                                                                | plain    |    
+         |              | 
+ remarks           | text                        |           |          |       
+                                                                | extended |    
+         |              | 
+ created_at        | timestamp without time zone |           |          | CURREN
+T_TIMESTAMP                                                     | plain    |    
+         |              | 
+ updated_at        | timestamp without time zone |           |          | CURREN
+T_TIMESTAMP                                                     | plain    |    
+         |              | 
+Indexes:
+    "ssdm9_service_delivery_log_pkey" PRIMARY KEY, btree (delivery_id)
+[7m--More--[27m[K
+...skipping 1 line
+Foreign-key constraints:
+    "ssdm9_service_delivery_log_customer_id_fkey" FOREIGN KEY (customer_id) REFE
+RENCES ssdm9.ssdm9_customers(customer_id)
+    "ssdm9_service_delivery_log_service_id_fkey" FOREIGN KEY (service_id) REFERE
+NCES ssdm9.ssdm9_service_master(service_id)
+    "ssdm9_service_delivery_log_sub_service_id_fkey" FOREIGN KEY (sub_service_id
+) REFERENCES ssdm9.ssdm9_subscription_services(sub_service_id)
+    "ssdm9_service_delivery_log_subscription_id_fkey" FOREIGN KEY (subscription_
+id) REFERENCES ssdm9.ssdm9_subscription_master(subscription_id)
+    "ssdm9_service_delivery_log_unit_id_fkey" FOREIGN KEY (unit_id) REFERENCES s
+sdm9.ssdm9_units_master(unit_id)
+Access method: heap
+
+     Sequence "ssdm9.ssdm9_service_delivery_log_delivery_id_seq"
+  Type   | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
+---------+-------+---------+------------+-----------+---------+-------
+ integer |     1 |       1 | 2147483647 |         1 | no      |     1
+Owned by: ssdm9.ssdm9_service_delivery_log.delivery_id
+
+            Index "ssdm9.ssdm9_service_delivery_log_pkey"
+   Column    |  Type   | Key? | Definition  | Storage | Stats target 
+-------------+---------+------+-------------+---------+--------------
+ delivery_id | integer | yes  | delivery_id | plain   | 
+primary key, btree, for table "ssdm9.ssdm9_service_delivery_log"
+
+                                     Table "ssdm9.ssdm9_service_enums"
+   Column    | Type | Collation | Nullable | Default | Storage  | Compression | 
+Stats target | Description 
+-------------+------+-----------+----------+---------+----------+-------------+-
+-------------+-------------
+ enum_type   | text |           |          |         | extended |             | 
+             | 
+ enum_value  | text |           |          |         | extended |             | 
+             | 
+ description | text |           |          |         | extended |             | 
+             | 
+Access method: heap
+
+                                                                   Table "ssdm9.
+ssdm9_service_master"
+          Column           |            Type             | Collation | Nullable 
+|             Default             | Storage  | Compression | Stats target | Desc
+ription 
+---------------------------+-----------------------------+-----------+----------
++---------------------------------+----------+-------------+--------------+-----
+--------
+ service_id                | text                        |           | not null 
+|                                 | extended |             |              | 
+ service_name              | text                        |           |          
+|                                 | extended |             |              | 
+ service_category          | text                        |           |          
+|                                 | extended |             |              | 
+ service_complexity        | text                        |           |          
+|                                 | extended |             |              | 
+ serv_dely_lead_team       | text                        |           |          
+|                                 | extended |             |              | 
+ serv_dely_supp_team       | text                        |           |          
+|                                 | extended |             |              | 
+ serv_dely_ext_vendor      | text                        |           |          
+|                                 | extended |             |              | 
+ service_availability_mode | text                        |           |          
+[7m--More--[27m[K[7m--More--[27m[K
+...skipping 1 line
+ open_or_subscription      | text                        |           |          
+|                                 | extended |             |              | 
+ serv_dely_location        | double precision            |           |          
+|                                 | plain    |             |              | 
+ serv_special_instr        | double precision            |           |          
+|                                 | plain    |             |              | 
+ created_at                | timestamp without time zone |           |          
+|                                 | plain    |             |              | 
+ updated_at                | timestamp without time zone |           |          
+|                                 | plain    |             |              | 
+ service_scope             | character varying(20)       |           |          
+| 'individual'::character varying | extended |             |              | 
+Indexes:
+    "pk_ssdm9_service_master" PRIMARY KEY, btree (service_id)
+Check constraints:
+    "chk_open_or_subscription" CHECK (open_or_subscription = ANY (ARRAY['Only Op
+en'::text, 'Only Subscription'::text, 'Subscription and Open'::text]))
+    "ssdm9_service_master_service_scope_check" CHECK (service_scope::text = ANY 
+(ARRAY['unit'::character varying, 'individual'::character varying]::text[]))
+Referenced by:
+    TABLE "ssdm9.ssdm9_subscription_services" CONSTRAINT "fk_subscription_servic
+es_service" FOREIGN KEY (service_id) REFERENCES ssdm9.ssdm9_service_master(servi
+ce_id) ON UPDATE CASCADE ON DELETE RESTRICT
+[7m--More--[27m    TABLE "ssdm9.ssdm9_service_delivery_log" CONSTRAINT "ssdm9_service_delivery_
+log_service_id_fkey" FOREIGN KEY (service_id) REFERENCES ssdm9.ssdm9_service_mas
+ter(service_id)
+Access method: heap
+
+                                              Table "ssdm9.ssdm9_subscription_cu
+stomers"
+     Column      |            Type             | Collation | Nullable | Default 
+| Storage  | Compression | Stats target | Description 
+-----------------+-----------------------------+-----------+----------+---------
++----------+-------------+--------------+-------------
+ sub_cust_id     | integer                     |           | not null |         
+| plain    |             |              | 
+ subscription_id | text                        |           |          |         
+| extended |             |              | 
+ customer_id     | integer                     |           |          |         
+| plain    |             |              | 
+ included        | boolean                     |           |          |         
+| plain    |             |              | 
+ created_at      | timestamp without time zone |           |          |         
+| plain    |             |              | 
+ updated_at      | timestamp without time zone |           |          |         
+| plain    |             |              | 
+Indexes:
+    "pk_ssdm9_subscription_customers" PRIMARY KEY, btree (sub_cust_id)
+    "idx_subscription_customers_customer" btree (customer_id)
+    "idx_subscription_customers_subscription" btree (subscription_id)
+Foreign-key constraints:
+[7m--More--[27m[K[7m--More--[27m    "fk_subscription_customers_customer" FOREIGN KEY (customer_id) REFERENCES ss
+dm9.ssdm9_customers(customer_id) ON UPDATE CASCADE ON DELETE CASCADE
+    "fk_subscription_customers_subscription" FOREIGN KEY (subscription_id) REFER
+ENCES ssdm9.ssdm9_subscription_master(subscription_id) ON UPDATE CASCADE ON DELE
+TE CASCADE
+Access method: heap
+
+                                                   Table "ssdm9.ssdm9_subscripti
+on_master"
+         Column          |            Type             | Collation | Nullable | 
+Default | Storage  | Compression | Stats target | Description 
+-------------------------+-----------------------------+-----------+----------+-
+--------+----------+-------------+--------------+-------------
+ subscription_id         | text                        |           | not null | 
+        | extended |             |              | 
+ unit_id                 | text                        |           |          | 
+        | extended |             |              | 
+ subscription_month      | text                        |           |          | 
+        | extended |             |              | 
+ created_by_customer_id  | integer                     |           |          | 
+        | plain    |             |              | 
+ accepted_by_customer_id | integer                     |           |          | 
+        | plain    |             |              | 
+ created_date            | timestamp without time zone |           |          | 
+        | plain    |             |              | 
+ accepted_date           | timestamp without time zone |           |          | 
+        | plain    |             |              | 
+ total_amount            | numeric(10,2)               |           |          | 
+        | main     |             |              | 
+ payment_status          | text                        |           |          | 
+[7m--More--[27m[K
+...skipping 1 line
+ status                  | text                        |           |          | 
+        | extended |             |              | 
+ created_at              | timestamp without time zone |           |          | 
+        | plain    |             |              | 
+ updated_at              | timestamp without time zone |           |          | 
+        | plain    |             |              | 
+Indexes:
+    "pk_ssdm9_subscription_master" PRIMARY KEY, btree (subscription_id)
+    "idx_subscription_master_unit" btree (unit_id)
+Foreign-key constraints:
+    "fk_subscription_master_accepted_by" FOREIGN KEY (accepted_by_customer_id) R
+EFERENCES ssdm9.ssdm9_customers(customer_id) ON UPDATE CASCADE ON DELETE SET NUL
+L
+    "fk_subscription_master_created_by" FOREIGN KEY (created_by_customer_id) REF
+ERENCES ssdm9.ssdm9_customers(customer_id) ON UPDATE CASCADE ON DELETE SET NULL
+    "fk_subscription_master_unit" FOREIGN KEY (unit_id) REFERENCES ssdm9.ssdm9_u
+nits_master(unit_id) ON UPDATE CASCADE ON DELETE RESTRICT
+Referenced by:
+    TABLE "ssdm9.ssdm9_subscription_customers" CONSTRAINT "fk_subscription_custo
+mers_subscription" FOREIGN KEY (subscription_id) REFERENCES ssdm9.ssdm9_subscrip
+tion_master(subscription_id) ON UPDATE CASCADE ON DELETE CASCADE
+    TABLE "ssdm9.ssdm9_subscription_services" CONSTRAINT "fk_subscription_servic
+es_subscription" FOREIGN KEY (subscription_id) REFERENCES ssdm9.ssdm9_subscripti
+[7m--More--[27m[K                                               Table "ssdm9.ssdm9_subscription_s
+ervices"
+      Column       |            Type             | Collation | Nullable | Defaul
+t | Storage  | Compression | Stats target | Description 
+-------------------+-----------------------------+-----------+----------+-------
+--+----------+-------------+--------------+-------------
+ sub_service_id    | integer                     |           | not null |       
+  | plain    |             |              | 
+ subscription_id   | text                        |           |          |       
+  | extended |             |              | 
+ service_id        | text                        |           |          |       
+  | extended |             |              | 
+ unit_id           | text                        |           |          |       
+  | extended |             |              | 
+ customer_id       | integer                     |           |          |       
+  | plain    |             |              | 
+ service_scope     | text                        |           |          |       
+  | extended |             |              | 
+ period_type       | text                        |           |          |       
+  | extended |             |              | 
+ period_start_date | date                        |           |          |       
+  | plain    |             |              | 
+ period_end_date   | date                        |           |          |       
+[7m--More--[27m  | plain    |             |              | 
+ specific_dates    | text                        |           |          |       
+  | extended |             |              | 
+ quantity          | integer                     |           |          |       
+  | plain    |             |              | 
+ unit_cost         | numeric(10,2)               |           |          |       
+  | main     |             |              | 
+ total_cost        | numeric(10,2)               |           |          |       
+  | main     |             |              | 
+ status            | text                        |           |          |       
+  | extended |             |              | 
+ remarks           | text                        |           |          |       
+  | extended |             |              | 
+ created_at        | timestamp without time zone |           |          |       
+  | plain    |             |              | 
+ updated_at        | timestamp without time zone |           |          |       
+  | plain    |             |              | 
+Indexes:
+    "pk_ssdm9_subscription_services" PRIMARY KEY, btree (sub_service_id)
+    "idx_subscription_services_customer" btree (customer_id)
+    "idx_subscription_services_subscription" btree (subscription_id)
+Foreign-key constraints:
+    "fk_subscription_services_customer" FOREIGN KEY (customer_id) REFERENCES ssd
+[7m--More--[27mm9.ssdm9_customers(customer_id) ON UPDATE CASCADE ON DELETE CASCADE
+    "fk_subscription_services_service" FOREIGN KEY (service_id) REFERENCES ssdm9
+.ssdm9_service_master(service_id) ON UPDATE CASCADE ON DELETE RESTRICT
+    "fk_subscription_services_subscription" FOREIGN KEY (subscription_id) REFERE
+NCES ssdm9.ssdm9_subscription_master(subscription_id) ON UPDATE CASCADE ON DELET
+E CASCADE
+    "fk_subscription_services_unit" FOREIGN KEY (unit_id) REFERENCES ssdm9.ssdm9
+_units_master(unit_id) ON UPDATE CASCADE ON DELETE RESTRICT
+Referenced by:
+    TABLE "ssdm9.ssdm9_service_delivery_log" CONSTRAINT "ssdm9_service_delivery_
+log_sub_service_id_fkey" FOREIGN KEY (sub_service_id) REFERENCES ssdm9.ssdm9_sub
+scription_services(sub_service_id)
+Access method: heap
+
+                                                   Table "ssdm9.ssdm9_units_mast
+er"
+      Column      |            Type             | Collation | Nullable | Default
+ | Storage  | Compression | Stats target | Description 
+------------------+-----------------------------+-----------+----------+--------
+-+----------+-------------+--------------+-------------
+ unit_id          | text                        |           | not null |        
+ | extended |             |              | 
+ unit_number      | text                        |           |          |        
+ | extended |             |              | 
+ unit_type        | text                        |           |          |        
+ | extended |             |              | 
+ ownership_status | text                        |           |          |        
+ | extended |             |              | 
+ active_status    | boolean                     |           |          |        
+ | plain    |             |              | 
+ created_at       | timestamp without time zone |           |          |        
+ | plain    |             |              | 
+ updated_at       | timestamp without time zone |           |          |        
+ | plain    |             |              | 
+Indexes:
+    "pk_ssdm9_units_master" PRIMARY KEY, btree (unit_id)
+Referenced by:
+[7m--More--[27m[K
+...skipping 1 line
+    TABLE "ssdm9.ssdm9_subscription_services" CONSTRAINT "fk_subscription_servic
+es_unit" FOREIGN KEY (unit_id) REFERENCES ssdm9.ssdm9_units_master(unit_id) ON U
+PDATE CASCADE ON DELETE RESTRICT
+    TABLE "ssdm9.ssdm9_service_delivery_log" CONSTRAINT "ssdm9_service_delivery_
+log_unit_id_fkey" FOREIGN KEY (unit_id) REFERENCES ssdm9.ssdm9_units_master(unit
+_id)
+Access method: heap
+
+                     Index "ssdm9.unique_service_day"
+    Column     |  Type   | Key? |  Definition   | Storage  | Stats target 
+---------------+---------+------+---------------+----------+--------------
+ service_id    | text    | yes  | service_id    | extended | 
+ customer_id   | integer | yes  | customer_id   | plain    | 
+ delivery_date | date    | yes  | delivery_date | plain    | 
+unique, btree, for table "ssdm9.ssdm9_service_delivery_log"
+

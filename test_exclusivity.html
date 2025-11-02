@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusivity Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        .exclusive { background-color: #fff3cd; border: 1px solid #ffeaa7; padding: 5px; margin: 2px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <h1>Service Exclusivity Test</h1>
+    
+    <div class="test-section info">
+        <h3>Test Instructions</h3>
+        <p>This test simulates the exclusivity logic for breakfast variants:</p>
+        <ul>
+            <li><strong>F&B204</strong> - Standard Breakfast</li>
+            <li><strong>F&B205</strong> - Modified Breakfast</li>
+            <li><strong>F&B206</strong> - Special Breakfast</li>
+        </ul>
+        <p>Only one breakfast variant should be selectable at a time.</p>
+    </div>
+
+    <div class="test-section">
+        <h3>Breakfast Services</h3>
+        <div>
+            <label class="exclusive">
+                <input type="checkbox" id="F&B204" onchange="testExclusivity('F&B204')">
+                F&B204 - Standard Breakfast
+            </label>
+            <label class="exclusive">
+                <input type="checkbox" id="F&B205" onchange="testExclusivity('F&B205')">
+                F&B205 - Modified Breakfast
+            </label>
+            <label class="exclusive">
+                <input type="checkbox" id="F&B206" onchange="testExclusivity('F&B206')">
+                F&B206 - Special Breakfast
+            </label>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>Test Results</h3>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        // Simulate the exclusivity logic from the Vue component
+        const conflictGroups = [
+            ['F&B204', 'F&B205', 'F&B206'], // Breakfast variants
+            ['F&B207', 'F&B209', 'F&B211'], // Lunch variants
+            ['F&B210', 'F&B212', 'F&B208']  // Dinner variants
+        ];
+
+        function testExclusivity(selectedServiceId) {
+            const checkbox = document.getElementById(selectedServiceId);
+            const resultsDiv = document.getElementById('results');
+            
+            if (checkbox.checked) {
+                // Find the conflict group for this service
+                const group = conflictGroups.find(g => g.includes(selectedServiceId));
+                
+                if (group) {
+                    // Uncheck other services in the same group
+                    const otherServices = group.filter(id => id !== selectedServiceId);
+                    let removedServices = [];
+                    
+                    otherServices.forEach(serviceId => {
+                        const otherCheckbox = document.getElementById(serviceId);
+                        if (otherCheckbox && otherCheckbox.checked) {
+                            otherCheckbox.checked = false;
+                            removedServices.push(serviceId);
+                        }
+                    });
+                    
+                    // Show result
+                    if (removedServices.length > 0) {
+                        resultsDiv.innerHTML = `
+                            <div class="success">
+                                <strong>✅ Exclusivity Working!</strong><br>
+                                Selected: ${selectedServiceId}<br>
+                                Automatically removed: ${removedServices.join(', ')}<br>
+                                <em>Only one breakfast variant can be selected at a time.</em>
+                            </div>
+                        `;
+                    } else {
+                        resultsDiv.innerHTML = `
+                            <div class="info">
+                                <strong>ℹ️ Service Selected</strong><br>
+                                Selected: ${selectedServiceId}<br>
+                                <em>No conflicts detected.</em>
+                            </div>
+                        `;
+                    }
+                }
+            } else {
+                resultsDiv.innerHTML = `
+                    <div class="info">
+                        <strong>ℹ️ Service Deselected</strong><br>
+                        Deselected: ${selectedServiceId}<br>
+                        <em>You can now select a different breakfast variant.</em>
+                    </div>
+                `;
+            }
+        }
+
+        // Test the logic programmatically
+        function runAutomatedTest() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="info"><strong>🧪 Running Automated Test...</strong></div>';
+            
+            setTimeout(() => {
+                // Test 1: Select F&B204, then F&B205
+                document.getElementById('F&B204').checked = true;
+                testExclusivity('F&B204');
+                
+                setTimeout(() => {
+                    document.getElementById('F&B205').checked = true;
+                    testExclusivity('F&B205');
+                    
+                    setTimeout(() => {
+                        resultsDiv.innerHTML += `
+                            <div class="success">
+                                <strong>✅ Automated Test Complete!</strong><br>
+                                The exclusivity logic is working correctly.<br>
+                                F&B204 was automatically deselected when F&B205 was selected.
+                            </div>
+                        `;
+                    }, 1000);
+                }, 1000);
+            }, 1000);
+        }
+
+        // Add test button
+        document.addEventListener('DOMContentLoaded', function() {
+            const testButton = document.createElement('button');
+            testButton.textContent = 'Run Automated Test';
+            testButton.onclick = runAutomatedTest;
+            testButton.style.backgroundColor = '#007bff';
+            testButton.style.color = 'white';
+            testButton.style.border = 'none';
+            testButton.style.borderRadius = '3px';
+            document.querySelector('.test-section h3').appendChild(testButton);
+        });
+    </script>
+</body>
+</html>

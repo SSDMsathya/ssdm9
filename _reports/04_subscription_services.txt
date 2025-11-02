@@ -1,0 +1,24 @@
+                                               Table "ssdm9.ssdm9_subscription_s
+ervices"
+      Column       |            Type             | Collation | Nullable | Defaul
+t | Storage  | Compression | Stats target | Description 
+-------------------+-----------------------------+-----------+----------+-------
+--+----------+-------------+--------------+-------------
+ sub_service_id    | integer                     |           | not null |       
+  | plain    |             |              | 
+ subscription_id   | text                        |           |          |       
+  | extended |             |              | 
+ service_id        | text                        |           |          |       
+  | extended |             |              | 
+ unit_id           | text                        |           |          |       
+  | extended |             |              | 
+ customer_id       | integer                     |           |          |       
+  | plain    |             |              | 
+ service_scope     | text                        |           |          |       
+  | extended |             |              | 
+ period_type       | text                        |           |          |       
+  | extended |             |              | 
+ period_start_date | date                        |           |          |       
+  | plain    |             |              | 
+ period_end_date   | date                        |           |          |       
+[7m--More--[27m

@@ -1,0 +1,91 @@
+Index "ssdm9.idx_subscription_customers_customer"
+   Column    |  Type   | Key? | Definition  
+-------------+---------+------+-------------
+ customer_id | integer | yes  | customer_id
+btree, for table "ssdm9.ssdm9_subscription_customers"
+
+Index "ssdm9.idx_subscription_customers_subscription"
+     Column      | Type | Key? |   Definition    
+-----------------+------+------+-----------------
+ subscription_id | text | yes  | subscription_id
+btree, for table "ssdm9.ssdm9_subscription_customers"
+
+Index "ssdm9.idx_subscription_master_unit"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ unit_id | text | yes  | unit_id
+btree, for table "ssdm9.ssdm9_subscription_master"
+
+Index "ssdm9.idx_subscription_services_customer"
+   Column    |  Type   | Key? | Definition  
+-------------+---------+------+-------------
+ customer_id | integer | yes  | customer_id
+btree, for table "ssdm9.ssdm9_subscription_services"
+
+Index "ssdm9.idx_subscription_services_subscription"
+     Column      | Type | Key? |   Definition    
+-----------------+------+------+-----------------
+ subscription_id | text | yes  | subscription_id
+btree, for table "ssdm9.ssdm9_subscription_services"
+
+      Index "ssdm9.pk_ssdm9_customers"
+   Column    |  Type   | Key? | Definition  
+-------------+---------+------+-------------
+ customer_id | integer | yes  | customer_id
+primary key, btree, for table "ssdm9.ssdm9_customers"
+
+ Index "ssdm9.pk_ssdm9_service_master"
+   Column   | Type | Key? | Definition 
+------------+------+------+------------
+ service_id | text | yes  | service_id
+primary key, btree, for table "ssdm9.ssdm9_service_master"
+
+Index "ssdm9.pk_ssdm9_subscription_customers"
+   Column    |  Type   | Key? | Definition  
+-------------+---------+------+-------------
+ sub_cust_id | integer | yes  | sub_cust_id
+primary key, btree, for table "ssdm9.ssdm9_subscription_customers"
+
+   Index "ssdm9.pk_ssdm9_subscription_master"
+     Column      | Type | Key? |   Definition    
+-----------------+------+------+-----------------
+ subscription_id | text | yes  | subscription_id
+primary key, btree, for table "ssdm9.ssdm9_subscription_master"
+
+   Index "ssdm9.pk_ssdm9_subscription_services"
+     Column     |  Type   | Key? |   Definition   
+----------------+---------+------+----------------
+ sub_service_id | integer | yes  | sub_service_id
+primary key, btree, for table "ssdm9.ssdm9_subscription_services"
+
+Index "ssdm9.pk_ssdm9_units_master"
+ Column  | Type | Key? | Definition 
+---------+------+------+------------
+ unit_id | text | yes  | unit_id
+primary key, btree, for table "ssdm9.ssdm9_units_master"
+
+                           Table "ssdm9.ssdm9_customers"
+       Column       |            Type             | Collation | Nullable | Defau
+lt 
+--------------------+-----------------------------+-----------+----------+------
+---
+ customer_id        | integer                     |           | not null | 
+ full_name          | text                        |           |          | 
+ contact_no         | text                        |           |          | 
+ email_id           | text                        |           |          | 
+ whatsapp_available | boolean                     |           |          | 
+ gender             | text                        |           |          | 
+ dob                | date                        |           |          | 
+ age                | integer                     |           |          | 
+ blood_group        | text                        |           |          | 
+ allergies          | text                        |           |          | 
+ relation_to_unit   | text                        |           |          | 
+ special_status     | text                        |           |          | 
+ resident_since     | date                        |           |          | 
+ unit_id            | text                        |           |          | 
+ default_payer_id   | integer                     |           |          | 
+ active_status      | boolean                     |           |          | 
+ created_at         | timestamp without time zone |           |          | 
+ updated_at         | timestamp without time zone |           |          | 
+[7m--More--[27mIndexes:
+[7m--More--[27m
