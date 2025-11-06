@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, text
 import json
 
 # 👉 bring in our routers (BOTH of them)
-from routes import subscription_routes
+from backend.routes import subscription_routes
 
 
 # -----------------------------------------------------------------------------
