@@ -1494,7 +1494,7 @@ const submitAll = async () => {
   try {
     const payload = buildPayload()
     console.log('[SUBMIT] POST /subscription_requests payload', payload)
-    await axios.post(`${API}/subscription_requests`, payload, { headers: { 'Content-Type': 'application/json' } })
+    await axios.post(`${API}/subscription/request`, payload, { headers: { 'Content-Type': 'application/json' } })
     window.alert('Subscription saved for approval. It will be activated after supervisor approval.')
     // reset
     resetAll()

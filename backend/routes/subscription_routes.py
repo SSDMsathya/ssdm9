@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from datetime import datetime, date, timedelta
 import random, uuid, json
 from typing import Optional, List
+from uuid import UUID
 from sqlalchemy import text
 from backend.db_connect import engine  # use SQLAlchemy engine (no get_db / Depends)
 
@@ -42,20 +43,20 @@ def start_subscription(month: str, unit_id: str, created_by: str = "userabc"):
 from pydantic import BaseModel
 
 class SubscriptionService(BaseModel):
-    service_id: int
+    service_id: str
     start_date: date
     end_date: date
     recurrence: Optional[str] = "DAILY"
-    unit_id: Optional[int] = None
+    unit_id: Optional[str] = None
     customer_id: Optional[int] = None
 
 class SubscriptionRequestIn(BaseModel):
-    unit_id: int
+    unit_id: str
     customer_id: int
     month_code: str
     services: List[SubscriptionService]
     remarks: Optional[str] = None
-    client_request_id: Optional[str] = None
+    client_request_id: Optional[UUID] = None
 
 def expand_dates(start: date, end: date, recurrence: str):
     dates = []
@@ -66,13 +67,17 @@ def expand_dates(start: date, end: date, recurrence: str):
             cur += timedelta(days=1)
     return dates
 
+# ---------------------------------------------------------------------
+# Subscription Request Handler
+# ---------------------------------------------------------------------
 @router.post("/request")
 def create_subscription_request(payload: SubscriptionRequestIn):
     """
     TX-1: Insert a draft subscription request (idempotent by client_request_id).
     Uses SQLAlchemy engine; no Depends(get_db) and no .cursor().
     """
-    client_request_id = payload.client_request_id or str(uuid.uuid4())
+    client_request_id = str(payload.client_request_id or uuid.uuid4())
+    unit_id_value = payload.unit_id  # Keep as string for ssdm9 schema
 
     try:
         with engine.begin() as conn:
@@ -94,22 +99,29 @@ def create_subscription_request(payload: SubscriptionRequestIn):
                 """),
                 {
                     "cid": client_request_id,
-                    "uid": payload.unit_id,
+                    "uid": unit_id_value,
                     "cust": payload.customer_id,
                     "month": payload.month_code,
-                    "payload": json.dumps(payload.dict(), default=str),
+                    "payload": json.dumps({**payload.dict(), "client_request_id": client_request_id}, default=str),
                 }
             ).scalar()
 
-        return {"request_id": request_id, "client_request_id": client_request_id, "status": "DRAFT"}
+        return {
+            "request_id": request_id,
+            "client_request_id": client_request_id,
+            "status": "DRAFT"
+        }
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"create_subscription_request error: {e}")
+        raise HTTPException(status_code=500, detail=f"create_subscription_request error: {e}, payload={payload.dict()}")
 
+# ---------------------------------------------------------------------
+# Placeholder routes for approval and activation
+# ---------------------------------------------------------------------
 @router.post("/{request_id}/approve")
-def approve_subscription(request_id: int):
+def approve_subscription(request_id: str):
     raise HTTPException(status_code=501, detail="Approve endpoint will be enabled after master tables are created.")
 
 @router.post("/{subscription_id}/activate")
-def activate_subscription(subscription_id: int):
+def activate_subscription(subscription_id: str):
     raise HTTPException(status_code=501, detail="Activate endpoint will be enabled after delivery expansion is ready.")
